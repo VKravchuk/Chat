@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app="chatApp">
+<head>
+    <title>Socket.IO chat</title>
+    <script src="jquery/src/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="angular/angular.min.js"></script>
+    <link rel="stylesheet" href="foundation/css/foundation.css"/>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div ng-controller="chatCtrl">
+
+        <form ng-submit="setUser()" ng-hide="userExist">
+            <label for="user">Enter user name:</label>
+            <input type="text" ng-model="user" id="user" autocomplete="off"/>
+        </form>
+
+        <div id="chat-wrapper" ng-show="userExist">
+            <p ng-repeat="msg in msgs track by $index"><span>{{msg.user}}:</span> {{msg.text}}</p>
+            <span ng-show="typingUsr">{{typingUsr}} is typing...</span>
+            <span ng-show="newUsr">{{newUsr}} join the chat</span>
+            <span ng-show="discUsr">{{discUsr}} left the chat</span>
+        </div>
+        <form ng-submit="sendMsg()" ng-show="userExist">
+            <input type="text" ng-model="inputMsg" autocomplete="off"/>
+        </form>
+
+    </div>
+<script src="main.js"></script>
+</body>

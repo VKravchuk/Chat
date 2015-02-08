@@ -1,0 +1,25 @@
+#chat-wrapper{
+    height: 400px;
+    overflow-y: scroll;
+    margin-left: 5%;
+    width: 90%;
+    border: 1px solid #65b465;
+}
+#chat-wrapper p {
+    margin-bottom: 10px;
+}
+#chat-wrapper p span {
+    font-weight: 600;
+    color: #000066;
+}
+input[type="text"]{
+    box-shadow: 0 0 2px 2px #008000;
+    margin-left: 5%;
+    width: 90%;
+    border-radius: 5px;
+}
+label{
+    margin-left: 5%;
+    padding: 5px;
+    font-size: 22px;
+}
