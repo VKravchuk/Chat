@@ -77,3 +77,31 @@ app.controller('chatCtrl', function($scope, socket){
 
 
 });
+
+app.directive('fileInput', ['$parse', function($parse){
+    return{
+        restrict: 'A',
+        link : function(scope, elm, attrs){
+            elm.bind('change',function(){
+                $parse(attrs.fileInput)
+                    .assign(scope, elm[0].files);
+                scope.$apply();
+            })
+        }
+    }
+}]);
+app.controller('uploader',['$scope', '$http', function($scope, $http){
+    $scope.upload = function(){
+        console.log($scope.files);
+        var fd = new FormData();
+        angular.forEach($scope.files, function(file){
+            fd.append('file', file);
+        });
+        $http.post('/', fd,{
+            transformRequest: angular.identity,
+            headers:{'Content-Type': undefined}
+        }).success(function(d){
+            console.log(d)
+        })
+    }
+}]);

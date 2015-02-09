@@ -25,7 +25,14 @@
         <form ng-submit="sendMsg()" ng-show="userExist">
             <input type="text" ng-model="inputMsg" autocomplete="off"/>
         </form>
-
+        <form ng-controller="uploader"  ng-show="userExist">
+            <input type="file"
+                   file-input="files"
+                   multiple/>
+            <button ng-click="upload()">Upload</button>
+            <p ng-repeat="file in files">{{file.name}}</p>
+        </form>
     </div>
+
 <script src="main.js"></script>
 </body>
