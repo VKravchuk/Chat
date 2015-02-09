@@ -33,7 +33,8 @@
                    file-input="files"
                    multiple/>
             <button ng-click="upload()">Upload</button>
-            <p ng-repeat="file in files">{{file.name}}</p>
+            <p ng-hide="status" ng-repeat="file in files">{{file.name}}</p>
+            <p ng-show="status">{{status}}</p>
         </form>
     </div>
 

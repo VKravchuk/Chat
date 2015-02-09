@@ -34,14 +34,16 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('typing', socket.user);
 	});
 
+    //check if user download the file and told this for another users
     socket.on('file download', function(file){
         io.emit('file download', {
             user : socket.user,
             file : file
         });
     });
+
+    //get files from client
     app.post('/',[ multer({ dest: './uploads/'}), function(req, res){
-        console.log(req.body); // form fields
         console.log(req.files); // form files
         res.status(204).end();
     }]);

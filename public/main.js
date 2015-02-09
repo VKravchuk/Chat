@@ -97,19 +97,31 @@ app.directive('fileInput', ['$parse', function($parse){
 //controller for file upload
 app.controller('uploader',['$scope', '$http', 'socket', function($scope, $http, socket){
     $scope.upload = function(){
-        console.log($scope.files[0].name);
-        var fd = new FormData();
-        angular.forEach($scope.files, function(file){
-            fd.append('file', file);
-        });
-        $http.post('/', fd,{
-            transformRequest: angular.identity,
-            headers:{'Content-Type': undefined}
-        }).success(function(){
-            for( var i = 0; i < $scope.files.length; i++){
-                socket.emit('file download', $scope.files[i].name);
-            }
-            console.log('success')
-        })
+        if( window.FormData !== undefined ) {
+            var fd = new FormData();
+            angular.forEach($scope.files, function (file) {
+                fd.append('file', file);
+            });
+            $http.post('/', fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).success(function () {
+                for (var i = 0; i < $scope.files.length; i++) {
+                    socket.emit('file download', $scope.files[i].name);
+                }
+                $scope.status = 'Your files was successful uploaded to server';
+            })
+        }
+        else{
+            console.log('Your browser doesn`t support file API');
+            /*$http.post('/json', {
+                'name' : 'filename',
+                'code' : 'code'
+            },{
+                headers: {'Content-Type': 'application/json'}
+            }).success(function () {
+                console.log('ok');
+            });*/
+        }
     }
 }]);
