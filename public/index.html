@@ -17,7 +17,10 @@
         </form>
 
         <div id="chat-wrapper" ng-show="userExist">
-            <p ng-repeat="msg in msgs track by $index"><span>{{msg.user}}:</span> {{msg.text}}</p>
+            <p ng-repeat="msg in msgs track by $index">
+                <span ng-show="msg.text"><span class="user-name">{{msg.user}}:</span> {{msg.text}}</span>
+                <span ng-show="msg.file"><span class="user-name">{{msg.user}}</span> download {{msg.file}}</span>
+            </p>
             <span ng-show="typingUsr">{{typingUsr}} is typing...</span>
             <span ng-show="newUsr">{{newUsr}} join the chat</span>
             <span ng-show="discUsr">{{discUsr}} left the chat</span>

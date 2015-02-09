@@ -7,13 +7,11 @@ app.factory('socket', function(){
 
 app.controller('chatCtrl', function($scope, socket){
     //variable declaration
-    $scope.msgs = [];
-    $scope.msg = {};
-    $scope.inputMsg = '';
-    $scope.users = [];
-    $scope.typingUsr = '';
-    $scope.newUsr = '';
-    $scope.discUsr = '';
+    $scope.msgs = [];//our messages
+    $scope.inputMsg = '';//message entered by user
+    $scope.typingUsr = '';//user who is typing
+    $scope.newUsr = '';//user who is join chat
+    $scope.discUsr = '';//user who is left chat
 
 
     var typingTimeout;//variable for cleaning timeout of typing
@@ -75,9 +73,15 @@ app.controller('chatCtrl', function($scope, socket){
         }, 3000);
     });
 
+    //write new message if someone download file
+    socket.on('file download', function(data){
+        $scope.msgs.push(data);
+        $scope.$digest();
+    });
+
 
 });
-
+//directive for file upload
 app.directive('fileInput', ['$parse', function($parse){
     return{
         restrict: 'A',
@@ -90,9 +94,10 @@ app.directive('fileInput', ['$parse', function($parse){
         }
     }
 }]);
-app.controller('uploader',['$scope', '$http', function($scope, $http){
+//controller for file upload
+app.controller('uploader',['$scope', '$http', 'socket', function($scope, $http, socket){
     $scope.upload = function(){
-        console.log($scope.files);
+        console.log($scope.files[0].name);
         var fd = new FormData();
         angular.forEach($scope.files, function(file){
             fd.append('file', file);
@@ -100,8 +105,11 @@ app.controller('uploader',['$scope', '$http', function($scope, $http){
         $http.post('/', fd,{
             transformRequest: angular.identity,
             headers:{'Content-Type': undefined}
-        }).success(function(d){
-            console.log(d)
+        }).success(function(){
+            for( var i = 0; i < $scope.files.length; i++){
+                socket.emit('file download', $scope.files[i].name);
+            }
+            console.log('success')
         })
     }
 }]);

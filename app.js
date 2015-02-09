@@ -33,6 +33,13 @@ io.on('connection', function(socket){
 	socket.on('typing', function(){
 		socket.broadcast.emit('typing', socket.user);
 	});
+
+    socket.on('file download', function(file){
+        io.emit('file download', {
+            user : socket.user,
+            file : file
+        });
+    });
     app.post('/',[ multer({ dest: './uploads/'}), function(req, res){
         console.log(req.body); // form fields
         console.log(req.files); // form files

@@ -8,7 +8,7 @@
 #chat-wrapper p {
     margin-bottom: 10px;
 }
-#chat-wrapper p span {
+#chat-wrapper p .user-name {
     font-weight: 600;
     color: #000066;
 }
